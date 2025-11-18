@@ -2,7 +2,10 @@
 const { app, BrowserWindow } = require("electron");
 const colors = require("colors");
 
-console.log(colors.rainbow("Starting Electron Application..."));
+setTimeout(() => {
+  console.log("Checking App: " + app.isReady());
+}, 1000);
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -27,15 +30,19 @@ function createWindow() {
   // Open DevTools - Remove for PRODUCTION!
   mainWindow.webContents.openDevTools();
 
+
   // Listen for window being closed
   mainWindow.on("closed", () => {
-    debugger;
+    console.log(colors.red("Main window closed."));
     mainWindow = null;
   });
 }
 
 // Electron `app` is ready
-app.on("ready", createWindow);
+app.on("ready", () => {
+  console.log(colors.green("App is ready."));
+  createWindow();
+});
 
 // Quit when all windows are closed - (Not macOS - Darwin)
 app.on("window-all-closed", () => {

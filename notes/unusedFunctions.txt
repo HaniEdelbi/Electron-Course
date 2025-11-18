@@ -1,0 +1,12 @@
+
+  // Listen for window being focused/unfocused
+  
+  app.on("browser-window-focus", (e) => {
+    console.log(colors.yellow("App is focused"));
+  });
+
+  app.on("browser-window-blur", (e) => {
+    setTimeout(() => {
+      app.quit();
+    }, 1000);
+  });
