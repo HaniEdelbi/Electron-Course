@@ -10,3 +10,8 @@
       app.quit();
     }, 1000);
   });
+
+// Removed/Obsolete Functions/Commands (from main.js):
+// ses.cookies.remove('https://myapp.domain.com', 'cookie1'); // Remove a cookie
+// console.log('cookie1 removed'); // Log after removing a cookie
+// Open DevTools - Remove for PRODUCTION!
