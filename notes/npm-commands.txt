@@ -1,2 +1,3 @@
 To hard reset and remove all installed libraries:  npm run reset
 To run with inspecter: electron --inspect=5858 .
+To save last location of the window before closing: npm install --save electron-window-state
