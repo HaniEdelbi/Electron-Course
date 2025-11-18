@@ -15,3 +15,7 @@
 // ses.cookies.remove('https://myapp.domain.com', 'cookie1'); // Remove a cookie
 // console.log('cookie1 removed'); // Log after removing a cookie
 // Open DevTools - Remove for PRODUCTION!
+
+Load a remote URL to demonstrate reading cookies set by remote content
+  mainWindow.loadURL('https://github.com');
+

@@ -29,60 +29,63 @@ function createWindow() {
 
   // Helper to get and log all cookies
   function getCookies(filter = {}) {
-    ses.cookies.get(filter)
+    ses.cookies
+      .get(filter)
       .then((cookies) => {
-        console.log('Cookies:', cookies);
+        console.log("Cookies:", cookies);
       })
       .catch((error) => {
-        console.error('Get cookies error:', error);
+        console.error("Get cookies error:", error);
       });
   }
+  // 1. Load remote content
+  mainWindow.loadFile("index.html");
 
-  // 1. Load a remote URL to demonstrate reading cookies set by remote content
-  mainWindow.loadURL('https://github.com');
-  mainWindow.webContents.on('did-finish-load', () => {
-    console.log('Loaded remote content, reading cookies:');
+  // Once content is loaded, perform cookie operations
+  mainWindow.webContents.on("did-finish-load", () => {
+    console.log("Loaded remote content, reading cookies:");
     getCookies();
 
     // 2. Set a session cookie (no expiration)
     const sessionCookie = {
-      url: 'https://myapp.domain.com',
-      name: 'cookie1',
-      value: 'electron'
+      url: "https://myapp.domain.com",
+      name: "cookie1",
+      value: "electron",
     };
-    ses.cookies.set(sessionCookie)
+    ses.cookies
+      .set(sessionCookie)
       .then(() => {
-        console.log('Session cookie1 set');
+        console.log("Session cookie1 set");
         getCookies();
 
         // 3. Set a persistent cookie (with expiration)
         const persistentCookie = {
-          url: 'https://myapp.domain.com',
-          name: 'cookie2',
-          value: 'persisted',
-          expirationDate: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 365 // 1 year
+          url: "https://myapp.domain.com",
+          name: "cookie2",
+          value: "persisted",
+          expirationDate: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 365, // 1 year
         };
         return ses.cookies.set(persistentCookie);
       })
       .then(() => {
-        console.log('Persistent cookie2 set');
+        console.log("Persistent cookie2 set");
         getCookies();
 
         // 4. Get a specific cookie by name
-        return ses.cookies.get({ name: 'cookie1' });
+        return ses.cookies.get({ name: "cookie1" });
       })
       .then((cookies) => {
-        console.log('cookie1 only:', cookies);
+        console.log("cookie1 only:", cookies);
 
         // 5. Remove a cookie
-        return ses.cookies.remove('https://myapp.domain.com', 'cookie1');
+        return ses.cookies.remove("https://myapp.domain.com", "cookie1");
       })
       .then(() => {
-        console.log('cookie1 removed');
+        console.log("cookie1 removed");
         getCookies();
       })
       .catch((error) => {
-        console.error('Cookie operation error:', error);
+        console.error("Cookie operation error:", error);
       });
   });
 
