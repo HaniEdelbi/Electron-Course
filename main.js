@@ -15,6 +15,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1600,
     height: 800,
+    frame: false, // Disable window frame thus removing standard window controls
     webPreferences: {
       // --- !! IMPORTANT !! ---
       // Disable 'contextIsolation' to allow 'nodeIntegration'
@@ -22,6 +23,7 @@ function createWindow() {
       contextIsolation: false,
       nodeIntegration: true,
     },
+    backgroundColor: "#2b2e3b",
   });
 
   // Load index.html into the new BrowserWindow
@@ -29,7 +31,6 @@ function createWindow() {
 
   // Open DevTools - Remove for PRODUCTION!
   mainWindow.webContents.openDevTools();
-
 
   // Listen for window being closed
   mainWindow.on("closed", () => {
