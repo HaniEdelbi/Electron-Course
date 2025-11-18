@@ -1,6 +1,8 @@
 // Modules
 const { app, BrowserWindow } = require("electron");
+const colors = require("colors");
 
+console.log(colors.rainbow("Starting Electron Application..."));
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -8,7 +10,7 @@ let mainWindow;
 // Create a new BrowserWindow when `app` is ready
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 1000,
+    width: 1600,
     height: 800,
     webPreferences: {
       // --- !! IMPORTANT !! ---
@@ -27,6 +29,7 @@ function createWindow() {
 
   // Listen for window being closed
   mainWindow.on("closed", () => {
+    debugger;
     mainWindow = null;
   });
 }
