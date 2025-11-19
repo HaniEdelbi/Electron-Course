@@ -8,6 +8,11 @@
     <title>Hello World!</title>
   </head>
   <body>
-    <h2><a href="splash.png" download>Download Splash Image</a></h2>
+    <h2><a href="https://file-examples.com/storage/fe6b8b6e2e6e4b1b8e8b8b8/2017/11/file_example_MP3_5MG.mp3" download>Download Audio Example (5MB)</a></h2>
+    <progress id="progress" value="0" max="100"></progress>
+    <script>
+      // Expose progress element to window for Electron main process
+      window.progress = document.getElementById('progress');
+    </script>
   </body>
 </html>

@@ -16,6 +16,72 @@
 // console.log('cookie1 removed'); // Log after removing a cookie
 // Open DevTools - Remove for PRODUCTION!
 
-Load a remote URL to demonstrate reading cookies set by remote content
-  mainWindow.loadURL('https://github.com');
+
+// --- SESSION COOKIES LOGIC DEMO (moved from main.js) ---
+// Get the session object from the main window's webContents
+// const ses = mainWindow.webContents.session;
+
+// Helper function to get and log all cookies (optionally filtered)
+// function getCookies(filter = {}) {
+//   ses.cookies.get(filter)
+//     .then((cookies) => {
+//       console.log('Cookies:', cookies);
+//     })
+//     .catch((error) => {
+//       console.error('Get cookies error:', error);
+//     });
+// }
+
+// When the main window finishes loading, perform cookie operations
+// mainWindow.webContents.on('did-finish-load', () => {
+//   // Log that content is loaded and read all cookies
+//   console.log('Loaded remote content, reading cookies:');
+//   getCookies();
+
+//   // Set a session cookie (no expiration)
+//   const sessionCookie = {
+//     url: 'https://myapp.domain.com',
+//     name: 'cookie1',
+//     value: 'electron'
+//   };
+//   ses.cookies.set(sessionCookie)
+//     .then(() => {
+//       // Log after setting session cookie and read all cookies again
+//       console.log('Session cookie1 set');
+//       getCookies();
+
+//       // Set a persistent cookie (with expiration date)
+//       const persistentCookie = {
+//         url: 'https://myapp.domain.com',
+//         name: 'cookie2',
+//         value: 'persisted',
+//         expirationDate: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 365 // 1 year
+//       };
+//       return ses.cookies.set(persistentCookie);
+//     })
+//     .then(() => {
+//       // Log after setting persistent cookie and read all cookies again
+//       console.log('Persistent cookie2 set');
+//       getCookies();
+
+//       // Get a specific cookie by name
+//       return ses.cookies.get({ name: 'cookie1' });
+//     })
+//     .then((cookies) => {
+//       // Log only the cookie with name 'cookie1'
+//       console.log('cookie1 only:', cookies);
+
+//       // Remove the session cookie
+//       return ses.cookies.remove('https://myapp.domain.com', 'cookie1');
+//     })
+//     .then(() => {
+//       // Log after removing the cookie and read all cookies again
+//       console.log('cookie1 removed');
+//       getCookies();
+//     })
+//     .catch((error) => {
+//       // Log any errors that occur during cookie operations
+//       console.error('Cookie operation error:', error);
+//     });
+// });
 

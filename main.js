@@ -24,73 +24,51 @@ function createWindow() {
     backgroundColor: "#2b2e3b",
   });
 
-  // --- SESSION COOKIES LOGIC DEMO ---
-  const ses = mainWindow.webContents.session;
 
-  // Helper to get and log all cookies
-  function getCookies(filter = {}) {
-    ses.cookies
-      .get(filter)
-      .then((cookies) => {
-        console.log("Cookies:", cookies);
-      })
-      .catch((error) => {
-        console.error("Get cookies error:", error);
-      });
-  }
-  // 1. Load remote content
+  // Download logic using session's will-download event
+  const ses = mainWindow.webContents.session;
+  const path = require('path');
+
   mainWindow.loadFile("index.html");
 
-  // Once content is loaded, perform cookie operations
-  mainWindow.webContents.on("did-finish-load", () => {
-    console.log("Loaded remote content, reading cookies:");
-    getCookies();
+  // Listen for download events
+  ses.on('will-download', (event, item, webContents) => {
+    console.log('Starting download...');
+    const fileName = item.getFilename();
+    const totalBytes = item.getTotalBytes();
+    console.log('File name:', fileName);
+    console.log('Total size:', totalBytes, 'bytes');
 
-    // 2. Set a session cookie (no expiration)
-    const sessionCookie = {
-      url: "https://myapp.domain.com",
-      name: "cookie1",
-      value: "electron",
-    };
-    ses.cookies
-      .set(sessionCookie)
-      .then(() => {
-        console.log("Session cookie1 set");
-        getCookies();
+    // Save to Desktop automatically (no prompt)
+    const savePath = path.join(app.getPath('desktop'), fileName);
+    item.setSavePath(savePath);
 
-        // 3. Set a persistent cookie (with expiration)
-        const persistentCookie = {
-          url: "https://myapp.domain.com",
-          name: "cookie2",
-          value: "persisted",
-          expirationDate: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 365, // 1 year
-        };
-        return ses.cookies.set(persistentCookie);
-      })
-      .then(() => {
-        console.log("Persistent cookie2 set");
-        getCookies();
+    // Track download progress
+    item.on('updated', (event, state) => {
+      if (state === 'progressing') {
+        const received = item.getReceivedBytes();
+        if (received && totalBytes) {
+          const progress = Math.round((received / totalBytes) * 100);
+          console.log(`Progress: ${progress}%`);
+          // Update progress bar in renderer
+          webContents.executeJavaScript(`if(window.progress){window.progress.value=${progress};}`);
+        }
+      } else if (state === 'interrupted') {
+        console.log('Download interrupted');
+      }
+    });
 
-        // 4. Get a specific cookie by name
-        return ses.cookies.get({ name: "cookie1" });
-      })
-      .then((cookies) => {
-        console.log("cookie1 only:", cookies);
-
-        // 5. Remove a cookie
-        return ses.cookies.remove("https://myapp.domain.com", "cookie1");
-      })
-      .then(() => {
-        console.log("cookie1 removed");
-        getCookies();
-      })
-      .catch((error) => {
-        console.error("Cookie operation error:", error);
-      });
+    item.once('done', (event, state) => {
+      if (state === 'completed') {
+        console.log('Download successfully');
+      } else {
+        console.log(`Download failed: ${state}`);
+      }
+    });
   });
 
   // Open DevTools - Remove for PRODUCTION!
-  mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
 
   // Listen for window being closed
   mainWindow.on("closed", () => {
