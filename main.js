@@ -1,6 +1,44 @@
+// Global tray reference
+let tray = null;
+
+function createTray() {
+  const { Tray, Menu } = require("electron");
+  const path = require("path");
+  // Use a template icon for best cross-platform results (ensure splash.png or another icon exists)
+  const iconPath = path.join(__dirname, "splash.png");
+  tray = new Tray(iconPath);
+  tray.setToolTip("Tray details: Electron Course Demo");
+
+  // Click logic: toggle window, shift+click to quit
+  tray.on("click", (e, bounds, position) => {
+    if (e.shiftKey) {
+      app.quit();
+    } else {
+      if (mainWindow) {
+        mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show();
+      }
+    }
+  });
+
+  // Tray context menu (uncomment to use instead of click logic)
+  /*
+  const trayMenu = Menu.buildFromTemplate([
+    { label: 'Item One' },
+    { label: 'Quit', role: 'quit' }
+  ]);
+  tray.setContextMenu(trayMenu);
+  */
+}
 // Modules
-const { app, BrowserWindow, session, dialog, Menu, MenuItem } = require("electron");
-const mainMenuTemplate = require('./mainMenu');
+const {
+  app,
+  BrowserWindow,
+  session,
+  dialog,
+  Menu,
+  MenuItem,
+} = require("electron");
+const mainMenuTemplate = require("./mainMenu");
 const colors = require("colors");
 
 setTimeout(() => {
@@ -12,10 +50,19 @@ let mainWindow, secWindow;
 
 // Create new BrowserWindows when `app` is ready
 function createWindow() {
+  // Create tray icon and logic
+  createTray();
+  const { Menu } = require("electron");
+  const contextMenu = Menu.buildFromTemplate([
+    { label: "Cut", role: "cut" },
+    { label: "Tools", role: "editMenu" },
+  ]);
+
+  // Create the window first
   mainWindow = new BrowserWindow({
     width: 1600,
     height: 800,
-    frame: true, // Disable window frame thus removing standard window controls
+    frame: true,
     minHeight: 720,
     minWidth: 1280,
     webPreferences: {
@@ -25,76 +72,82 @@ function createWindow() {
     backgroundColor: "#2b2e3b",
   });
 
+  // Now it's safe to use mainWindow.webContents
+  mainWindow.webContents.on("context-menu", (e) => {
+    contextMenu.popup({ window: mainWindow });
+  });
 
-  // Download logic using session's will-download event
   const ses = mainWindow.webContents.session;
-  const path = require('path');
+  const path = require("path");
 
   mainWindow.loadFile("index.html");
 
-  // Set up the main application menu using the template
   const mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
   Menu.setApplicationMenu(mainMenu);
 
-
-
-
   // --- DIALOG DEMOS ---
-  mainWindow.webContents.on('did-finish-load', async () => {
+  mainWindow.webContents.on("did-finish-load", async () => {
     // 1. Open Dialog (file/folder picker)
     const openResult = await dialog.showOpenDialog(mainWindow, {
-      buttonLabel: 'Select a photo',
-      defaultPath: app.getPath('home'),
-      properties: ['openFile', 'multiSelections', 'createDirectory', 'openDirectory']
+      buttonLabel: "Select a photo",
+      defaultPath: app.getPath("home"),
+      properties: [
+        "openFile",
+        "multiSelections",
+        "createDirectory",
+        "openDirectory",
+      ],
     });
-    console.log('Open dialog result:', openResult);
+    console.log("Open dialog result:", openResult);
 
     // 2. Save Dialog
     const saveResult = await dialog.showSaveDialog(mainWindow, {
-      defaultPath: path.join(app.getPath('desktop'), 'new-photo.png')
+      defaultPath: path.join(app.getPath("desktop"), "new-photo.png"),
     });
-    console.log('Save dialog result:', saveResult);
+    console.log("Save dialog result:", saveResult);
 
     // 3. Message Box Dialog
-    const answers = ['Yes', 'No', 'Maybe'];
+    const answers = ["Yes", "No", "Maybe"];
     const msgResult = await dialog.showMessageBox({
-      title: 'Message Box',
-      message: 'Please select an option',
-      detail: 'Some detail to help the user.',
-      buttons: answers
+      title: "Message Box",
+      message: "Please select an option",
+      detail: "Some detail to help the user.",
+      buttons: answers,
     });
-    console.log('User selected:', answers[msgResult.response]);
+    console.log("User selected:", answers[msgResult.response]);
   });
   // Listen for download events
-  ses.on('will-download', (event, item, webContents) => {
-    console.log('Starting download...');
+  ses.on("will-download", (event, item, webContents) => {
+    console.log("Starting download...");
     const fileName = item.getFilename();
     const totalBytes = item.getTotalBytes();
-    console.log('File name:', fileName);
-    console.log('Total size:', totalBytes, 'bytes');
+    console.log("File name:", fileName);
+    console.log("Total size:", totalBytes, "bytes");
 
     // Save to Desktop automatically (no prompt)
-    const savePath = path.join(app.getPath('desktop'), fileName);
+    const savePath = path.join(app.getPath("desktop"), fileName);
     item.setSavePath(savePath);
 
     // Track download progress
-    item.on('updated', (event, state) => {
-      if (state === 'progressing') {
+    item.on("updated", (event, state) => {
+      if (state === "progressing") {
         const received = item.getReceivedBytes();
         if (received && totalBytes) {
           const progress = Math.round((received / totalBytes) * 100);
           console.log(`Progress: ${progress}%`);
           // Update progress bar in renderer
-          webContents.executeJavaScript(`if(window.progress){window.progress.value=${progress};}`);
+          webContents.executeJavaScript(
+            `if(window.progress){window.progress.value=${progress};}`
+          );
         }
-      } else if (state === 'interrupted') {
-        console.log('Download interrupted');
+      } else if (state === "interrupted") {
+        console.log("Download interrupted");
       }
     });
 
-    item.once('done', (event, state) => {
-      if (state === 'completed') {
-        console.log('Download successfully');
+    item.once("done", (event, state) => {
+      if (state === "completed") {
+        console.log("Download successfully");
       } else {
         console.log(`Download failed: ${state}`);
       }

@@ -1,3 +1,32 @@
+/* Tray section styles */
+.tray-section {
+	margin: 32px 0 24px 0;
+	padding: 18px 24px 16px 24px;
+	background: #f7f7fa;
+	border-radius: 10px;
+	box-shadow: 0 2px 8px rgba(44,62,80,0.06);
+	text-align: left;
+}
+.tray-section h2 {
+	margin-top: 0;
+	color: #1cb5e0;
+}
+.tray-icon-img {
+	width: 32px;
+	height: 32px;
+	border: 1px solid #ccc;
+	background: #fff;
+	padding: 2px;
+	vertical-align: middle;
+	margin: 8px 0 0 0;
+	box-shadow: 0 1px 3px rgba(44,62,80,0.08);
+	border-radius: 6px;
+}
+.tray-note {
+	font-size: 0.95em;
+	color: #888;
+	margin: 6px 0 0 0;
+}
 /* Download row: align button and progress bar horizontally */
 .download-row {
   display: flex;
