@@ -1,5 +1,6 @@
 // Modules
-const { app, BrowserWindow, session } = require("electron");
+const { app, BrowserWindow, session, dialog, Menu, MenuItem } = require("electron");
+const mainMenuTemplate = require('./mainMenu');
 const colors = require("colors");
 
 setTimeout(() => {
@@ -14,7 +15,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1600,
     height: 800,
-    frame: false, // Disable window frame thus removing standard window controls
+    frame: true, // Disable window frame thus removing standard window controls
     minHeight: 720,
     minWidth: 1280,
     webPreferences: {
@@ -31,6 +32,39 @@ function createWindow() {
 
   mainWindow.loadFile("index.html");
 
+  // Set up the main application menu using the template
+  const mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
+  Menu.setApplicationMenu(mainMenu);
+
+
+
+
+  // --- DIALOG DEMOS ---
+  mainWindow.webContents.on('did-finish-load', async () => {
+    // 1. Open Dialog (file/folder picker)
+    const openResult = await dialog.showOpenDialog(mainWindow, {
+      buttonLabel: 'Select a photo',
+      defaultPath: app.getPath('home'),
+      properties: ['openFile', 'multiSelections', 'createDirectory', 'openDirectory']
+    });
+    console.log('Open dialog result:', openResult);
+
+    // 2. Save Dialog
+    const saveResult = await dialog.showSaveDialog(mainWindow, {
+      defaultPath: path.join(app.getPath('desktop'), 'new-photo.png')
+    });
+    console.log('Save dialog result:', saveResult);
+
+    // 3. Message Box Dialog
+    const answers = ['Yes', 'No', 'Maybe'];
+    const msgResult = await dialog.showMessageBox({
+      title: 'Message Box',
+      message: 'Please select an option',
+      detail: 'Some detail to help the user.',
+      buttons: answers
+    });
+    console.log('User selected:', answers[msgResult.response]);
+  });
   // Listen for download events
   ses.on('will-download', (event, item, webContents) => {
     console.log('Starting download...');
@@ -68,7 +102,7 @@ function createWindow() {
   });
 
   // Open DevTools - Remove for PRODUCTION!
-    // mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   // Listen for window being closed
   mainWindow.on("closed", () => {

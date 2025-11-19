@@ -1,0 +1,292 @@
+/* Download row: align button and progress bar horizontally */
+.download-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0;
+  margin: 18px 0 8px 0;
+}
+
+.download-btn {
+  margin: 0 40px 0 0;
+}
+
+#progress {
+  width: 180px;
+  height: 18px;
+  margin: 0;
+}
+
+/* Custom HTML Menu Bar */
+.html-menu-bar {
+	width: 100vw;
+	min-width: 900px;
+	background: #2b2e3b;
+	box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+	margin-bottom: 0;
+	position: sticky;
+	top: 0;
+	z-index: 100;
+}
+
+.html-menu-bar ul {
+	list-style: none;
+	margin: 0;
+	padding: 0 0 0 24px;
+	display: flex;
+	height: 44px;
+	align-items: center;
+}
+
+.html-menu-bar .menu-item {
+	position: relative;
+	color: #fff;
+	font-weight: 500;
+	font-size: 1.08rem;
+	padding: 0 28px;
+	cursor: pointer;
+	height: 44px;
+	display: flex;
+	align-items: center;
+	transition: background 0.15s;
+	user-select: none;
+}
+
+.html-menu-bar .menu-item:hover,
+.html-menu-bar .menu-item:focus-within {
+	background: #1cb5e0;
+}
+
+.html-menu-bar .submenu {
+	display: none;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	background: #fff;
+	color: #2b2e3b;
+	min-width: 160px;
+	border-radius: 0 0 8px 8px;
+	box-shadow: 0 8px 24px rgba(44, 62, 80, 0.18);
+	padding: 8px 0;
+	z-index: 200;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.18s;
+}
+
+.html-menu-bar .menu-item:hover>.submenu,
+.html-menu-bar .menu-item:focus-within>.submenu {
+	display: block;
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.html-menu-bar .submenu li {
+	padding: 10px 26px;
+	cursor: pointer;
+	font-size: 1rem;
+	transition: background 0.13s, color 0.13s;
+	white-space: nowrap;
+	background: #fff;
+}
+
+.html-menu-bar .submenu li:hover {
+	background: #e0eafc;
+	color: #1cb5e0;
+}
+
+/* Style for the download progress bar */
+
+body {
+	background: linear-gradient(120deg, #e0eafc, #cfdef3 100%);
+	min-height: 100vh;
+	margin: 0;
+	font-family: 'Segoe UI', 'Arial', sans-serif;
+	color: #2b2e3b;
+}
+
+.container {
+	max-width: 1200px;
+	min-height: 90vh;
+	margin: 32px auto 32px auto;
+	background: #fff;
+	border-radius: 18px;
+	box-shadow: 0 4px 32px rgba(44, 62, 80, 0.10);
+	padding: 48px 56px 36px 56px;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	justify-content: flex-start;
+}
+
+section {
+	width: 100%;
+	margin-bottom: 40px;
+	background: none;
+	border: none;
+	padding: 0 0 8px 0;
+	box-sizing: border-box;
+}
+
+.unused-section {
+	background: #f7fafd;
+	border: 1.5px dashed #b3c6e0;
+	border-radius: 12px;
+	padding: 18px 24px 12px 24px;
+	margin-bottom: 32px;
+}
+
+.unused-section h2 {
+	color: #b36a00;
+	font-size: 1.15rem;
+	margin-bottom: 10px;
+}
+
+.unused-section pre {
+	background: #fffbe6;
+	color: #7c5c00;
+	font-size: 0.98rem;
+	border-radius: 6px;
+	padding: 10px 14px;
+	overflow-x: auto;
+	margin: 0 0 8px 0;
+}
+
+header {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-bottom: 24px;
+}
+
+.splash-img {
+	width: 90px;
+	height: 90px;
+	border-radius: 16px;
+	margin-bottom: 12px;
+	box-shadow: 0 2px 8px rgba(44, 62, 80, 0.10);
+	object-fit: cover;
+}
+
+h1 {
+	font-size: 2.2rem;
+	margin: 0 0 8px 0;
+	font-weight: 700;
+	letter-spacing: 1px;
+}
+
+.subtitle {
+	color: #4f8cff;
+	font-size: 1.1rem;
+	margin-bottom: 0;
+	text-align: center;
+}
+
+section {
+	width: 100%;
+	margin-bottom: 32px;
+	background: none;
+	border: none;
+	padding: 0;
+}
+
+.download-section h2,
+.edit-section h2,
+.about-section h2 {
+	font-size: 1.3rem;
+	margin-bottom: 12px;
+	color: #1cb5e0;
+	font-weight: 600;
+}
+
+.download-btn {
+	display: inline-block;
+	background: linear-gradient(90deg, #4f8cff, #1cb5e0);
+	color: #fff;
+	font-weight: 600;
+	padding: 10px 28px;
+	border-radius: 8px;
+	font-size: 1.1rem;
+	text-decoration: none;
+	margin-bottom: 18px;
+	box-shadow: 0 2px 8px rgba(44, 62, 80, 0.10);
+	transition: background 0.2s, box-shadow 0.2s;
+}
+
+.download-btn:hover {
+	background: linear-gradient(90deg, #1cb5e0, #4f8cff);
+	box-shadow: 0 4px 16px rgba(44, 62, 80, 0.13);
+}
+
+progress#progress {
+	width: 100%;
+	max-width: 350px;
+	height: 22px;
+	margin: 12px 0 6px 0;
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+	background-color: #e0e0e0;
+	appearance: none;
+	-webkit-appearance: none;
+}
+
+progress#progress::-webkit-progress-bar {
+	background-color: #e0e0e0;
+	border-radius: 8px;
+}
+
+progress#progress::-webkit-progress-value {
+	background: linear-gradient(90deg, #4f8cff, #1cb5e0);
+	border-radius: 8px;
+}
+
+progress#progress::-moz-progress-bar {
+	background: linear-gradient(90deg, #4f8cff, #1cb5e0);
+	border-radius: 8px;
+}
+
+.progress-label {
+	font-size: 0.95rem;
+	color: #888;
+	margin-bottom: 0;
+	text-align: center;
+}
+
+.edit-section textarea {
+	width: 100%;
+	max-width: 350px;
+	min-height: 80px;
+	font-size: 1rem;
+	border-radius: 8px;
+	border: 1px solid #cfd8dc;
+	padding: 10px 12px;
+	margin-top: 8px;
+	box-sizing: border-box;
+	resize: vertical;
+	background: #f7fafd;
+	color: #2b2e3b;
+	transition: border 0.2s;
+}
+
+.edit-section textarea:focus {
+	border: 1.5px solid #4f8cff;
+	outline: none;
+}
+
+.about-section ul {
+	margin: 0 0 12px 0;
+	padding-left: 18px;
+	color: #2b2e3b;
+	font-size: 1rem;
+}
+
+.about-section li {
+	margin-bottom: 6px;
+}
+
+.footer {
+	color: #aaa;
+	font-size: 0.95rem;
+	text-align: center;
+	margin-top: 18px;
+}
