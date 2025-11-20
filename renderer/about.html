@@ -108,55 +108,7 @@
       </div>
     </div>
 
-    <!-- Script to handle hamburger menu -->
-    <script>
-      // Hamburger menu
-      const hamburgerMenu = document.getElementById("hamburger-menu");
-      const sidePanel = document.getElementById("side-panel");
-      const sidePanelClose = document.getElementById("side-close");
-
-      hamburgerMenu.addEventListener("click", () => {
-        sidePanel.classList.add("open");
-      });
-
-      sidePanelClose.addEventListener("click", () => {
-        sidePanel.classList.remove("open");
-      });
-
-      // Close when clicking outside the panel
-      document.addEventListener("click", (e) => {
-        if (
-          sidePanel.classList.contains("open") &&
-          !sidePanel.contains(e.target) &&
-          !hamburgerMenu.contains(e.target)
-        ) {
-          sidePanel.classList.remove("open");
-        }
-      });
-
-      // Platform dropdown
-      const platformBtn = document.querySelector(".wm-platform-btn");
-      const platformDropdown = document.querySelector(".wm-platform-dropdown");
-
-      platformBtn.addEventListener("click", () => {
-        platformDropdown.classList.toggle("open");
-      });
-
-      platformDropdown.addEventListener("click", (e) => {
-        if (e.target.tagName === "LI") {
-          platformBtn.querySelector("span").textContent = e.target.textContent;
-          platformDropdown.classList.remove("open");
-        }
-      });
-
-      document.addEventListener("click", (e) => {
-        if (
-          !platformBtn.contains(e.target) &&
-          !platformDropdown.contains(e.target)
-        ) {
-          platformDropdown.classList.remove("open");
-        }
-      });
-    </script>
+    <!-- Modularized: shared UI logic for menus and platform dropdown -->
+    <script src="renderer/ui-common.js"></script>
   </body>
 </html>

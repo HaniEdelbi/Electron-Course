@@ -133,138 +133,25 @@
     <!-- Two-column orders layout -->
     <section class="orders-section">
       <div class="orders-grid">
-        <!-- Left column: Want to Sell -->
-        <div class="orders-column">
-          <div class="column-tag sell">Want to Sell</div>
-          <article class="order-card">
-            <header class="order-header">
-              <a href="#" class="order-item-name">Rubico Prime Set</a>
-              <span class="order-price">120p</span>
-            </header>
-            <div class="order-meta">
-              <span>3x sets</span>
-              <span class="order-user">by <strong>Trader123</strong></span>
-            </div>
-            <button class="order-btn sell">Sell</button>
-          </article>
-          <article class="order-card">
-            <header class="order-header">
-              <a href="#" class="order-item-name">Loki Prime Blueprint</a>
-              <span class="order-price">35p</span>
-            </header>
-            <div class="order-meta">
-              <span>1x</span>
-              <span class="order-user">by <strong>NinjaPrime</strong></span>
-            </div>
-            <button class="order-btn sell">Sell</button>
-          </article>
-        </div>
-        <!-- Right column: Want to Buy -->
-        <div class="orders-column">
-          <div class="column-tag buy">Want to Buy</div>
-          <article class="order-card">
-            <header class="order-header">
-              <a href="#" class="order-item-name">Rubico Prime Set</a>
-              <span class="order-price">110p</span>
-            </header>
-            <div class="order-meta">
-              <span>2x sets</span>
-              <span class="order-user">by <strong>SniperKing</strong></span>
-            </div>
-            <button class="order-btn buy">Buy</button>
-          </article>
-          <article class="order-card">
-            <header class="order-header">
-              <a href="#" class="order-item-name">Nova Prime Set</a>
-              <span class="order-price">95p</span>
-            </header>
-            <div class="order-meta">
-              <span>1x</span>
-              <span class="order-user">by <strong>SpaceFarmer</strong></span>
-            </div>
-            <button class="order-btn buy">Buy</button>
-          </article>
-        </div>
+        <div id="orders-sell"></div>
+        <div id="orders-buy"></div>
       </div>
     </section>
 
-    <!-- Your existing renderer script -->
+    <!-- Modularized: shared UI logic for menus and platform dropdown -->
     <script src="renderer/price-monitor.js"></script>
-
-    <!-- Tiny script to handle side menus + platform dropdown -->
+    <script src="renderer/ui-common.js"></script>
     <script>
-      // Left hamburger menu
-      const hamburgerMenu = document.getElementById("hamburger-menu");
-      const sidePanel = document.getElementById("side-panel");
-      const sidePanelClose = document.getElementById("side-close");
-
-      hamburgerMenu.addEventListener("click", () => {
-        sidePanel.classList.add("open");
-      });
-
-      sidePanelClose.addEventListener("click", () => {
-        sidePanel.classList.remove("open");
-      });
-
-      // Close left panel when clicking outside
-      document.addEventListener("click", (e) => {
-        if (
-          sidePanel.classList.contains("open") &&
-          !sidePanel.contains(e.target) &&
-          !hamburgerMenu.contains(e.target)
-        ) {
-          sidePanel.classList.remove("open");
-        }
-      });
-
-      // Right side menu
-      const menuToggle = document.querySelector(".wm-menu-toggle");
-      const sideMenu = document.getElementById("wm-side-menu");
-      const sideClose = document.getElementById("wm-side-close");
-
-      menuToggle.addEventListener("click", () => {
-        sideMenu.classList.add("open");
-      });
-
-      sideClose.addEventListener("click", () => {
-        sideMenu.classList.remove("open");
-      });
-
-      // Close right menu when clicking outside
-      document.addEventListener("click", (e) => {
-        if (
-          sideMenu.classList.contains("open") &&
-          !sideMenu.contains(e.target) &&
-          !menuToggle.contains(e.target)
-        ) {
-          sideMenu.classList.remove("open");
-        }
-      });
-
-      // Platform dropdown
-      const platformBtn = document.querySelector(".wm-platform-btn");
-      const platformDropdown = document.querySelector(".wm-platform-dropdown");
-
-      platformBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        platformDropdown.classList.toggle("open");
-      });
-
-      platformDropdown.addEventListener("click", (e) => {
-        if (e.target.tagName === "LI") {
-          platformBtn.querySelector("span").textContent = e.target.textContent;
-          platformDropdown.classList.remove("open");
-        }
-      });
-
-      document.addEventListener("click", (e) => {
-        if (
-          !platformBtn.contains(e.target) &&
-          !platformDropdown.contains(e.target)
-        ) {
-          platformDropdown.classList.remove("open");
-        }
-      });
+      // Dynamically load order columns (remains page-specific)
+      function loadOrdersColumn(id, url) {
+        fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            document.getElementById(id).innerHTML = html;
+          });
+      }
+      loadOrdersColumn('orders-sell', 'renderer/orders-sell.html');
+      loadOrdersColumn('orders-buy', 'renderer/orders-buy.html');
     </script>
   </body>
 </html>
