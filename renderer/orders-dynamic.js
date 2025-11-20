@@ -1,21 +1,77 @@
 // Dynamic order rendering for Warframe Market Price Monitor
 // Fetches real orders from warframe.market and renders buy/sell columns
-
-const rawName = document.getElementById('item-name').value;
-const urlName = toUrlName(rawName); // "loki_prime_set"
-const apiUrl = `https://api.warframe.market/v1/items/${urlName}/orders`;
-
-
+// Now also fetches the global item list and shows it for selection/autocomplete.
 
 document.addEventListener('DOMContentLoaded', () => {
   const sellContainer = document.getElementById('orders-sell');
   const buyContainer = document.getElementById('orders-buy');
   const form = document.getElementById('item-form');
   const itemInput = document.getElementById('item-name');
+  const itemListContainer = document.getElementById('item-list');
 
   if (!form || !itemInput || !sellContainer || !buyContainer) return;
 
-  // Helpers
+  // Holds full warframe.market item list
+  let allItems = [];
+
+  // -----------------------------
+  // Item list fetching + rendering
+  // -----------------------------
+
+  // Fetch entire item list from warframe.market
+  async function fetchAllItems() {
+    const url = 'https://api.warframe.market/v1/items';
+
+    const res = await fetch(url, {
+      headers: {
+        Platform: 'pc',
+        Language: 'en',
+        Accept: 'application/json',
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}`);
+    }
+
+    const data = await res.json();
+    // Payload structure: { payload: { items: { en: [...] } } }
+    return data.payload?.items?.en || [];
+  }
+
+  // Render a simple list of items (limited for readability)
+  function renderItemList(items) {
+    if (!itemListContainer) return;
+
+    if (!items || items.length === 0) {
+      itemListContainer.innerHTML = `
+        <p style="color:#9fbacc;font-size:0.85rem;">
+          No items loaded.
+        </p>`;
+      return;
+    }
+
+    const limited = items.slice(0, 50); // avoid dumping hundreds at once
+    const html = `
+      <ul class="item-list">
+        ${limited
+          .map(
+            (it) => `
+          <li class="item-list-entry" data-url-name="${it.url_name}">
+            <span class="item-list-name">${it.item_name}</span>
+            <span class="item-list-url">${it.url_name}</span>
+          </li>`
+          )
+          .join('')}
+      </ul>
+    `;
+    itemListContainer.innerHTML = html;
+  }
+
+  // -----------------------------
+  // Helpers for orders
+  // -----------------------------
+
   function niceItemName(urlName) {
     // rubico_prime_set -> Rubico Prime Set
     return urlName
@@ -95,7 +151,61 @@ document.addEventListener('DOMContentLoaded', () => {
     return data.payload?.orders || [];
   }
 
-  // Handle form submit
+  // -----------------------------
+  // Load item list on startup
+  // -----------------------------
+  (async () => {
+    try {
+      allItems = await fetchAllItems();
+      renderItemList(allItems);
+    } catch (err) {
+      console.error('Failed to fetch items:', err);
+      if (itemListContainer) {
+        itemListContainer.innerHTML = `
+          <p style="color:#ff9c9c;font-size:0.85rem;">
+            Failed to load item list.
+          </p>`;
+      }
+    }
+  })();
+
+  // -----------------------------
+  // Autocomplete filtering by input
+  // -----------------------------
+  itemInput.addEventListener('input', () => {
+    if (!allItems || allItems.length === 0) return;
+
+    const q = itemInput.value.toLowerCase().trim();
+
+    if (!q) {
+      renderItemList(allItems);
+      return;
+    }
+
+    const filtered = allItems.filter((it) =>
+      it.item_name.toLowerCase().includes(q)
+    );
+
+    renderItemList(filtered);
+  });
+
+  // Click item from list to fill input
+  if (itemListContainer) {
+    itemListContainer.addEventListener('click', (e) => {
+      const li = e.target.closest('.item-list-entry');
+      if (!li) return;
+
+      const nameSpan = li.querySelector('.item-list-name');
+      if (nameSpan) {
+        itemInput.value = nameSpan.textContent;
+        itemInput.focus();
+      }
+    });
+  }
+
+  // -----------------------------
+  // Handle form submit (existing logic)
+  // -----------------------------
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -166,11 +276,11 @@ document.addEventListener('DOMContentLoaded', () => {
   renderOrders('buy', [], 'rubico_prime_set');
 });
 
-
 function toUrlName(raw) {
   return raw
     .trim()
     .toLowerCase()
     .replace(/\s+/g, '_');
 }
+
 module.exports = { toUrlName };
