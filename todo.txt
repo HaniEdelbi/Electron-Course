@@ -1,0 +1,8 @@
+To build an Electron app that monitors the price of a certain item on warframe.market, here’s a high-level plan:
+
+UI: Create a simple interface to enter/select the item name and display the current price.
+Fetch Data: Use the warframe.market API to fetch the item’s price.
+Polling: Set up a timer to check the price at regular intervals.
+Notification: Optionally, notify the user if the price drops below a threshold.
+Tray: add a tray to know when the app is running
+OPTIONAL: Statistics

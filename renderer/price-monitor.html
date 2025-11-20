@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Warframe Market Price Monitor</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- All layout + navbar + background styles -->
+    <link rel="stylesheet" href="../design/background.css" />
+    <link rel="stylesheet" href="../design/price-monitor.css" />
+  </head>
+  <body>
+    <!-- Top navbar similar to warframe.market -->
+    <header class="wm-navbar">
+      <div class="wm-navbar-left">
+        <button class="hamburger-menu" id="hamburger-menu">
+          ☰
+        </button>
+        <div class="wm-logo">
+          <span class="wm-logo-main">WARFRAME</span>
+          <span class="wm-logo-sub">Price Checker</span>
+        </div>
+
+        <div class="wm-platform-select">
+          <button class="wm-platform-btn">
+            <span>PC</span>
+            <span class="wm-platform-chevron">▾</span>
+          </button>
+          <ul class="wm-platform-dropdown">
+            <li>PC</li>
+            <li>PSN</li>
+            <li>XBOX</li>
+            <li>SWITCH</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="wm-navbar-right">
+        <nav class="wm-nav-links">
+          <a href="#" class="active">Market</a>
+          <a href="#">Contracts</a>
+          <a href="#">Tools</a>
+        </nav>
+
+        <button class="wm-signin-btn">Sign In</button>
+
+        <!-- Burger to open side menu -->
+        <button class="wm-menu-toggle" aria-label="Toggle menu">
+          ☰
+        </button>
+      </div>
+    </header>
+
+    <!-- Left slide-out menu -->
+    <aside class="side-panel" id="side-panel">
+      <div class="side-panel-header">
+        <span>Menu</span>
+        <button class="side-close" id="side-close">✕</button>
+      </div>
+      <nav class="side-panel-links">
+        <a href="#">Price History</a>
+        <a href="#">Item Database</a>
+        <a href="#">Settings</a>
+        <a href="about.html">About</a>
+      </nav>
+    </aside>
+
+    <!-- Right slide-out menu -->
+    <aside class="wm-side-menu" id="wm-side-menu">
+      <div class="wm-side-menu-header">
+        <span>Menu</span>
+        <button class="wm-side-close" id="wm-side-close" aria-label="Close menu">
+          ✕
+        </button>
+      </div>
+      <nav class="wm-side-links">
+        <a href="#" class="active">Market</a>
+        <a href="#">Contracts</a>
+        <a href="#">Tools</a>
+        <hr />
+        <a href="#">Profile</a>
+        <a href="#">Settings</a>
+        <a href="#">Help</a>
+      </nav>
+    </aside>
+
+    <div class="container">
+      <h1>Warframe Market Price Monitor</h1>
+
+      <form id="item-form">
+        <label for="item-name">Item Name</label>
+        <input
+          type="text"
+          id="item-name"
+          placeholder="e.g. rubico_prime_set"
+          autocomplete="off"
+          required
+        />
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="min-price">Min Unit Price</label>
+            <input
+              type="number"
+              id="min-price"
+              placeholder="Min price"
+              min="0"
+              step="0.01"
+            />
+          </div>
+          <div class="form-group">
+            <label for="max-price">Max Unit Price</label>
+            <input
+              type="number"
+              id="max-price"
+              placeholder="Max price"
+              min="0"
+              step="0.01"
+            />
+          </div>
+        </div>
+
+        <button type="submit">Monitor</button>
+      </form>
+    </div>
+
+    <!-- Section separator like warframe.market -->
+    <div class="orders-separator">
+      <h2>MOST RECENT ORDERS <span class="caret">▼</span></h2>
+    </div>
+
+    <!-- Two-column orders layout -->
+    <section class="orders-section">
+      <div class="orders-grid">
+        <!-- Left column: Want to Sell -->
+        <div class="orders-column">
+          <div class="column-tag sell">Want to Sell</div>
+          <article class="order-card">
+            <header class="order-header">
+              <a href="#" class="order-item-name">Rubico Prime Set</a>
+              <span class="order-price">120p</span>
+            </header>
+            <div class="order-meta">
+              <span>3x sets</span>
+              <span class="order-user">by <strong>Trader123</strong></span>
+            </div>
+            <button class="order-btn sell">Sell</button>
+          </article>
+          <article class="order-card">
+            <header class="order-header">
+              <a href="#" class="order-item-name">Loki Prime Blueprint</a>
+              <span class="order-price">35p</span>
+            </header>
+            <div class="order-meta">
+              <span>1x</span>
+              <span class="order-user">by <strong>NinjaPrime</strong></span>
+            </div>
+            <button class="order-btn sell">Sell</button>
+          </article>
+        </div>
+        <!-- Right column: Want to Buy -->
+        <div class="orders-column">
+          <div class="column-tag buy">Want to Buy</div>
+          <article class="order-card">
+            <header class="order-header">
+              <a href="#" class="order-item-name">Rubico Prime Set</a>
+              <span class="order-price">110p</span>
+            </header>
+            <div class="order-meta">
+              <span>2x sets</span>
+              <span class="order-user">by <strong>SniperKing</strong></span>
+            </div>
+            <button class="order-btn buy">Buy</button>
+          </article>
+          <article class="order-card">
+            <header class="order-header">
+              <a href="#" class="order-item-name">Nova Prime Set</a>
+              <span class="order-price">95p</span>
+            </header>
+            <div class="order-meta">
+              <span>1x</span>
+              <span class="order-user">by <strong>SpaceFarmer</strong></span>
+            </div>
+            <button class="order-btn buy">Buy</button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Your existing renderer script -->
+    <script src="renderer/price-monitor.js"></script>
+
+    <!-- Tiny script to handle side menus + platform dropdown -->
+    <script>
+      // Left hamburger menu
+      const hamburgerMenu = document.getElementById("hamburger-menu");
+      const sidePanel = document.getElementById("side-panel");
+      const sidePanelClose = document.getElementById("side-close");
+
+      hamburgerMenu.addEventListener("click", () => {
+        sidePanel.classList.add("open");
+      });
+
+      sidePanelClose.addEventListener("click", () => {
+        sidePanel.classList.remove("open");
+      });
+
+      // Close left panel when clicking outside
+      document.addEventListener("click", (e) => {
+        if (
+          sidePanel.classList.contains("open") &&
+          !sidePanel.contains(e.target) &&
+          !hamburgerMenu.contains(e.target)
+        ) {
+          sidePanel.classList.remove("open");
+        }
+      });
+
+      // Right side menu
+      const menuToggle = document.querySelector(".wm-menu-toggle");
+      const sideMenu = document.getElementById("wm-side-menu");
+      const sideClose = document.getElementById("wm-side-close");
+
+      menuToggle.addEventListener("click", () => {
+        sideMenu.classList.add("open");
+      });
+
+      sideClose.addEventListener("click", () => {
+        sideMenu.classList.remove("open");
+      });
+
+      // Close right menu when clicking outside
+      document.addEventListener("click", (e) => {
+        if (
+          sideMenu.classList.contains("open") &&
+          !sideMenu.contains(e.target) &&
+          !menuToggle.contains(e.target)
+        ) {
+          sideMenu.classList.remove("open");
+        }
+      });
+
+      // Platform dropdown
+      const platformBtn = document.querySelector(".wm-platform-btn");
+      const platformDropdown = document.querySelector(".wm-platform-dropdown");
+
+      platformBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        platformDropdown.classList.toggle("open");
+      });
+
+      platformDropdown.addEventListener("click", (e) => {
+        if (e.target.tagName === "LI") {
+          platformBtn.querySelector("span").textContent = e.target.textContent;
+          platformDropdown.classList.remove("open");
+        }
+      });
+
+      document.addEventListener("click", (e) => {
+        if (
+          !platformBtn.contains(e.target) &&
+          !platformDropdown.contains(e.target)
+        ) {
+          platformDropdown.classList.remove("open");
+        }
+      });
+    </script>
+  </body>
+</html>

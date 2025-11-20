@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>About - Warframe Market Price Monitor</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- All layout + navbar + background styles -->
+  <link rel="stylesheet" href="../design/background.css" />
+  <link rel="stylesheet" href="../design/about.css" />
+  </head>
+  <body>
+    <!-- Top navbar similar to warframe.market -->
+    <header class="wm-navbar">
+      <div class="wm-navbar-left">
+        <button class="hamburger-menu" id="hamburger-menu">
+          ☰
+        </button>
+        <div class="wm-logo">
+          <!-- You can replace this text with an <img> if you have a logo -->
+          <span class="wm-logo-main">WARFRAME</span>
+          <span class="wm-logo-sub">Price Checker</span>
+        </div>
+
+        <div class="wm-platform-select">
+          <button class="wm-platform-btn">
+            <span>PC</span>
+            <span class="wm-platform-chevron">▾</span>
+          </button>
+          <ul class="wm-platform-dropdown">
+            <li>PC</li>
+            <li>PSN</li>
+            <li>XBOX</li>
+            <li>SWITCH</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="wm-navbar-right">
+        <nav class="wm-nav-links">
+          <a href="price-monitor.html">Market</a>
+          <a href="#">Contracts</a>
+          <a href="#">Tools</a>
+        </nav>
+
+        <button class="wm-signin-btn">Sign In</button>
+
+      </div>
+    </header>
+
+    <!-- Slide-out side menu -->
+    <aside class="side-panel" id="side-panel">
+      <div class="side-panel-header">
+        <span>Menu</span>
+        <button class="side-close" id="side-close">✕</button>
+      </div>
+      <nav class="side-panel-links">
+        <a href="price-monitor.html">Price Monitor</a>
+        <a href="#">Price History</a>
+        <a href="#">Item Database</a>
+        <a href="#">Settings</a>
+        <a href="#" class="active">About</a>
+      </nav>
+    </aside>
+
+    <div class="container">
+      <h1>About Warframe Market Price Monitor</h1>
+      
+      <div class="about-content">
+        <section class="about-section">
+          <h2>What is this app?</h2>
+          <p>
+            The Warframe Market Price Monitor is an Electron-based desktop application designed to help Warframe players track item prices from the Warframe Market. Monitor your favorite items and get notified when prices change within your desired range.
+          </p>
+        </section>
+
+        <section class="about-section">
+          <h2>Features</h2>
+          <ul>
+            <li>Real-time price monitoring for Warframe items</li>
+            <li>Set minimum and maximum price alerts</li>
+            <li>Multi-platform support (PC, PlayStation, Xbox, Nintendo Switch)</li>
+            <li>Clean, modern interface inspired by warframe.market</li>
+            <li>Desktop notifications for price changes</li>
+          </ul>
+        </section>
+
+        <section class="about-section">
+          <h2>How it works</h2>
+          <p>
+            This application uses the official Warframe Market API to fetch current item prices. Simply enter an item name and set your preferred price range to start monitoring. The app will check prices at regular intervals and notify you when items fall within your target range.
+          </p>
+        </section>
+
+        <section class="about-section">
+          <h2>Technology</h2>
+          <p>
+            Built with Electron, HTML, CSS, and JavaScript. This cross-platform desktop app brings the power of web technologies to your desktop for a seamless Warframe trading experience.
+          </p>
+        </section>
+
+        <section class="about-section">
+          <h2>Version</h2>
+          <p>Version 1.0.0</p>
+          <p>Created with ❤️ for the Warframe community</p>
+        </section>
+      </div>
+    </div>
+
+    <!-- Script to handle hamburger menu -->
+    <script>
+      // Hamburger menu
+      const hamburgerMenu = document.getElementById("hamburger-menu");
+      const sidePanel = document.getElementById("side-panel");
+      const sidePanelClose = document.getElementById("side-close");
+
+      hamburgerMenu.addEventListener("click", () => {
+        sidePanel.classList.add("open");
+      });
+
+      sidePanelClose.addEventListener("click", () => {
+        sidePanel.classList.remove("open");
+      });
+
+      // Close when clicking outside the panel
+      document.addEventListener("click", (e) => {
+        if (
+          sidePanel.classList.contains("open") &&
+          !sidePanel.contains(e.target) &&
+          !hamburgerMenu.contains(e.target)
+        ) {
+          sidePanel.classList.remove("open");
+        }
+      });
+
+      // Platform dropdown
+      const platformBtn = document.querySelector(".wm-platform-btn");
+      const platformDropdown = document.querySelector(".wm-platform-dropdown");
+
+      platformBtn.addEventListener("click", () => {
+        platformDropdown.classList.toggle("open");
+      });
+
+      platformDropdown.addEventListener("click", (e) => {
+        if (e.target.tagName === "LI") {
+          platformBtn.querySelector("span").textContent = e.target.textContent;
+          platformDropdown.classList.remove("open");
+        }
+      });
+
+      document.addEventListener("click", (e) => {
+        if (
+          !platformBtn.contains(e.target) &&
+          !platformDropdown.contains(e.target)
+        ) {
+          platformDropdown.classList.remove("open");
+        }
+      });
+    </script>
+  </body>
+</html>

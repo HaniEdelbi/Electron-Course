@@ -1,0 +1,78 @@
+/* =======================
+   Number Input Spinner Styles
+   ======================= */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+  display: none;
+}
+input[type="number"] {
+  /* Prevent default spinner color bleed */
+  color-scheme: dark;
+}
+/* =======================
+   Custom Scrollbar Styles
+   ======================= */
+
+/* For Chromium browsers (Electron, Chrome, Edge) */
+::-webkit-scrollbar {
+  width: 12px;
+  background: rgba(10, 20, 30, 0.7);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #00bdf4 0%, #1ffff0 100%);
+  border-radius: 8px;
+  border: 2px solid rgba(10, 20, 30, 0.7);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #2fe7ff 0%, #00bdf4 100%);
+}
+
+::-webkit-scrollbar-corner {
+  background: rgba(10, 20, 30, 0.7);
+}
+/* =======================
+   App Background (shared)
+   ======================= */
+
+html, body {
+  /* allow page to grow naturally */
+  min-height: 100vh;
+  height: auto;
+  width: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  /* full-page image ALWAYS covers the entire scrollable page */
+  background: url('../images/mainPage.jpg') center top / cover no-repeat fixed;
+
+  /* fallback color for extremely tall screens, will blend nicely */
+  background-color: #111;
+
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* Full-screen overlay (covers entire viewport but NOT body height) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+
+  /* smooth fade, not too dark */
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.45),
+    rgba(0, 0, 0, 0.85)
+  );
+
+  pointer-events: none; /* safe clickthrough */
+  z-index: -1;
+}
