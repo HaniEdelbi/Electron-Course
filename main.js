@@ -81,6 +81,8 @@ function createWindow() {
   const path = require("path");
 
   mainWindow.loadFile("index.html");
+  // mainWindow.loadURL("https://warframe.market/");
+
 
   const mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
   Menu.setApplicationMenu(mainMenu);
