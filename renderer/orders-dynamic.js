@@ -246,9 +246,9 @@ document.addEventListener('DOMContentLoaded', () => {
       let buyOrders = visible.filter((o) => o.order_type === 'buy');
       let sellOrders = visible.filter((o) => o.order_type === 'sell');
 
-      // Sort: cheapest sell first, highest buy first
-      sellOrders.sort((a, b) => a.platinum - b.platinum);
-      buyOrders.sort((a, b) => b.platinum - a.platinum);
+  // Sort: lowest price first for both buy and sell
+  sellOrders.sort((a, b) => a.platinum - b.platinum);
+  buyOrders.sort((a, b) => a.platinum - b.platinum);
 
       renderOrders('sell', sellOrders, itemUrlName);
       renderOrders('buy', buyOrders, itemUrlName);
