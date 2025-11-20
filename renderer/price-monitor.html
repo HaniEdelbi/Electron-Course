@@ -138,20 +138,10 @@
       </div>
     </section>
 
-    <!-- Modularized: shared UI logic for menus and platform dropdown -->
-    <script src="renderer/price-monitor.js"></script>
-    <script src="renderer/ui-common.js"></script>
-    <script>
-      // Dynamically load order columns (remains page-specific)
-      function loadOrdersColumn(id, url) {
-        fetch(url)
-          .then(res => res.text())
-          .then(html => {
-            document.getElementById(id).innerHTML = html;
-          });
-      }
-      loadOrdersColumn('orders-sell', 'renderer/orders-sell.html');
-      loadOrdersColumn('orders-buy', 'renderer/orders-buy.html');
-    </script>
+  <!-- Modularized: shared UI logic for menus and platform dropdown -->
+  <script src="price-monitor.js"></script>
+  <script src="ui-common.js"></script>
+  <!-- Dynamic order rendering: loops through data and generates order cards -->
+  <script src="orders-dynamic.js"></script>
   </body>
 </html>
