@@ -206,6 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // -----------------------------
   // Handle form submit (existing logic)
   // -----------------------------
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -213,6 +214,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!raw) return;
 
     const itemUrlName = raw.toLowerCase().replace(/\s+/g, '_');
+
+    // Get min/max price values
+    const minInput = document.getElementById('min-price');
+    const maxInput = document.getElementById('max-price');
+    const minPrice = minInput && minInput.value ? parseFloat(minInput.value) : null;
+    const maxPrice = maxInput && maxInput.value ? parseFloat(maxInput.value) : null;
 
     // Show loading state
     sellContainer.innerHTML = `
@@ -246,9 +253,19 @@ document.addEventListener('DOMContentLoaded', () => {
       let buyOrders = visible.filter((o) => o.order_type === 'buy');
       let sellOrders = visible.filter((o) => o.order_type === 'sell');
 
-  // Sort: lowest price first for both buy and sell
-  sellOrders.sort((a, b) => a.platinum - b.platinum);
-  buyOrders.sort((a, b) => a.platinum - b.platinum);
+      // Filter by min/max price if set
+      if (minPrice !== null) {
+        buyOrders = buyOrders.filter((o) => o.platinum >= minPrice);
+        sellOrders = sellOrders.filter((o) => o.platinum >= minPrice);
+      }
+      if (maxPrice !== null) {
+        buyOrders = buyOrders.filter((o) => o.platinum <= maxPrice);
+        sellOrders = sellOrders.filter((o) => o.platinum <= maxPrice);
+      }
+
+      // Sort: lowest price first for both buy and sell
+      sellOrders.sort((a, b) => a.platinum - b.platinum);
+      buyOrders.sort((a, b) => a.platinum - b.platinum);
 
       renderOrders('sell', sellOrders, itemUrlName);
       renderOrders('buy', buyOrders, itemUrlName);

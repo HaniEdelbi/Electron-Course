@@ -1,3 +1,13 @@
+html, body {
+  height: auto;
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+.container {
+  position: relative;
+  overflow: visible;
+}
 .wm-navbar-left {
   display: flex;
   align-items: center;
@@ -39,6 +49,7 @@
 /* background and overlay now in background.css */
 /* overlay now only in background.css */
 
+
 /* =======================
    Top navbar
    ======================= */
@@ -54,8 +65,9 @@
   border-bottom: 1px solid rgba(0, 255, 200, 0.18);
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.85);
 
-  position: relative;
-  z-index: 10;
+  position: sticky;
+  top: 0;
+  z-index: 100;
   background: rgba(3, 10, 18, 0.94);
 }
 
