@@ -1,4 +1,4 @@
-console.log('[items.js] Script loaded');
+console.log("[items.js] Script loaded");
 // Display item and sub-item images/names in #item-display after search
 window.displayItemAndSubItems = function (
   formId = "item-form",
@@ -6,14 +6,14 @@ window.displayItemAndSubItems = function (
   displayId = "item-display"
 ) {
   function attach() {
-    console.log('[displayItemAndSubItems] Attaching event listener');
+    console.log("[displayItemAndSubItems] Attaching event listener");
     const form = document.getElementById(formId);
     const itemInput = document.getElementById(inputId);
     const displayDiv = document.getElementById(displayId);
     if (!form || !itemInput || !displayDiv) return;
 
     form.addEventListener("submit", async (e) => {
-      console.log('[displayItemAndSubItems] Form submit event');
+      console.log("[displayItemAndSubItems] Form submit event");
       // stop form from reloading the window
       e.preventDefault();
 
@@ -28,13 +28,13 @@ window.displayItemAndSubItems = function (
     });
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', attach);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", attach);
   } else {
     attach();
   }
 };
-        displayDiv.innerHTML = html;
+displayDiv.innerHTML = html;
 
 // --------------------------------------------------
 // Helper: normalize icon URLs from warframe.market API
@@ -71,12 +71,17 @@ async function getItemDetailsWithImages(itemUrlName) {
 
     const data = await res.json();
     const item = data.payload?.item;
-    console.log('[getItemDetailsWithImages] API item:', item);
+    console.log("[getItemDetailsWithImages] API item:", item);
     if (!item) return result;
 
     // main item (set object itself)
     const iconUrl = makeIconUrl(item.icon);
-    console.log('[getItemDetailsWithImages] main icon:', item.icon, '->', iconUrl);
+    console.log(
+      "[getItemDetailsWithImages] main icon:",
+      item.icon,
+      "->",
+      iconUrl
+    );
     result.main = {
       name: item.item_name,
       icon: iconUrl,

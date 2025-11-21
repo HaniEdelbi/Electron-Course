@@ -1,4 +1,6 @@
-  <script>console.log('[price-monitor.html] Top-level script running');</script>
+<script>
+  console.log("[price-monitor.html] Top-level script running");
+</script>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -129,10 +131,8 @@
       <div id="item-list"></div>
     </div>
 
-
-
-  <!-- Item section to be displayed plus the sub-items if there are any -->
-  <div id="item-display"></div>
+    <!-- Item section to be displayed plus the sub-items if there are any -->
+    <div id="item-display"></div>
 
     <!-- Orders section: separator and grid together, moved down -->
     <div id="orders-section-wrapper">
@@ -152,13 +152,13 @@
     <!-- Modularized: shared UI logic for menus and platform dropdown -->
     <script src="price-monitor.js"></script>
     <script src="ui-common.js"></script>
-  <script src="items.js"></script>
+    <script src="items.js"></script>
     <!-- Dynamic order rendering: loops through data and generates order cards -->
     <script src="orders-dynamic.js"></script>
 
     <script>
       // Call the displayItemAndSubItems function from items.js
-      window.displayItemAndSubItems('item-form', 'item-name', 'item-display');
+      window.displayItemAndSubItems("item-form", "item-name", "item-display");
     </script>
   </body>
 </html>
