@@ -1,5 +1,6 @@
 // Main application modules
 const { app, BrowserWindow } = require("electron");
+const { createTray } = require("./tray.js");
 
 // Global reference for main window
 let mainWindow;
@@ -29,6 +30,9 @@ function createWindow() {
   mainWindow.on("closed", () => {
     mainWindow = null;
   });
+
+  // Create tray icon using external module
+  createTray(mainWindow);
 }
 
 // Application is ready to create windows
