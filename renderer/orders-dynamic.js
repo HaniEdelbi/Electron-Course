@@ -82,7 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderOrders(type, orders, itemUrlName) {
     const container = type === 'sell' ? sellContainer : buyContainer;
     const prettyName = niceItemName(itemUrlName);
-
     if (!container) return;
 
     // No orders: show a simple message
@@ -105,12 +104,14 @@ document.addEventListener('DOMContentLoaded', () => {
       Want to ${type.charAt(0).toUpperCase() + type.slice(1)}
     </div>`;
 
+
     // Limit to first 10 to keep it tidy
-    orders.slice(0, 10).forEach((order) => {
+    orders.slice(0, 10).forEach((order, idx) => {
       const price = order.platinum;
       const quantity = order.quantity;
       const user = order.user?.ingame_name || order.user?.name || 'Unknown';
-
+      // Button text: if type is 'sell', button says 'Buy'; if 'buy', button says 'Sell'
+      const buttonText = type === 'sell' ? 'Buy' : 'Sell';
       html += `
         <article class="order-card">
           <header class="order-header">
@@ -121,8 +122,8 @@ document.addEventListener('DOMContentLoaded', () => {
             <span>${quantity}x</span>
             <span class="order-user">by <strong>${user}</strong></span>
           </div>
-          <button class="order-btn ${type}">
-            ${type.charAt(0).toUpperCase() + type.slice(1)}
+          <button class="order-btn ${type}" data-user="${user}" data-type="${type}" data-item="${prettyName}" data-price="${price}">
+            ${buttonText}
           </button>
         </article>
       `;
@@ -130,6 +131,60 @@ document.addEventListener('DOMContentLoaded', () => {
 
     html += `</div>`;
     container.innerHTML = html;
+
+    // Add click event listeners to copy user name to clipboard
+    container.querySelectorAll('.order-btn').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const user = btn.getAttribute('data-user');
+        const type = btn.getAttribute('data-type');
+        const item = btn.getAttribute('data-item');
+        const price = btn.getAttribute('data-price');
+        // Format message for clipboard
+        let msg = '';
+        if (type === 'sell') {
+          msg = `/w ${user} Hi! I want to buy: "${item}" for ${price} platinum. (warframe.market)`;
+        } else {
+          msg = `/w ${user} Hi! I want to sell: "${item}" for ${price} platinum. (warframe.market)`;
+        }
+        // Copy to clipboard
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(msg).then(() => {
+            showCopyFeedback(btn, 'Copied!');
+          });
+        } else {
+          // fallback
+          const temp = document.createElement('input');
+          temp.value = msg;
+          document.body.appendChild(temp);
+          temp.select();
+          document.execCommand('copy');
+          document.body.removeChild(temp);
+          showCopyFeedback(btn, 'Copied!');
+        }
+      });
+    });
+  }
+
+  // Show a quick feedback message near the button
+  function showCopyFeedback(btn, text) {
+    const feedback = document.createElement('span');
+    feedback.textContent = text;
+    feedback.style.position = 'absolute';
+    feedback.style.background = '#222';
+    feedback.style.color = '#2fe7ff';
+    feedback.style.fontSize = '0.85rem';
+    feedback.style.padding = '2px 8px';
+    feedback.style.borderRadius = '6px';
+    feedback.style.top = '-28px';
+    feedback.style.right = '0';
+    feedback.style.zIndex = '999';
+    feedback.style.pointerEvents = 'none';
+    btn.parentElement.style.position = 'relative';
+    btn.parentElement.appendChild(feedback);
+    setTimeout(() => {
+      feedback.remove();
+    }, 1200);
   }
 
   async function fetchOrdersForItem(itemUrlName) {
@@ -300,4 +355,5 @@ function toUrlName(raw) {
     .replace(/\s+/g, '_');
 }
 
-module.exports = { toUrlName };
+
+// Note: module.exports is not needed in browser context

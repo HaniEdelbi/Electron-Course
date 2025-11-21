@@ -1,3 +1,4 @@
+  <script>console.log('[price-monitor.html] Top-level script running');</script>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -14,9 +15,7 @@
     <!-- Top navbar similar to warframe.market -->
     <header class="wm-navbar">
       <div class="wm-navbar-left">
-        <button class="hamburger-menu" id="hamburger-menu">
-          ☰
-        </button>
+        <button class="hamburger-menu" id="hamburger-menu">☰</button>
         <div class="wm-logo">
           <span class="wm-logo-main">WARFRAME</span>
           <span class="wm-logo-sub">Price Checker</span>
@@ -46,9 +45,7 @@
         <button class="wm-signin-btn">Sign In</button>
 
         <!-- Burger to open side menu -->
-        <button class="wm-menu-toggle" aria-label="Toggle menu">
-          ☰
-        </button>
+        <button class="wm-menu-toggle" aria-label="Toggle menu">☰</button>
       </div>
     </header>
 
@@ -70,7 +67,11 @@
     <aside class="wm-side-menu" id="wm-side-menu">
       <div class="wm-side-menu-header">
         <span>Menu</span>
-        <button class="wm-side-close" id="wm-side-close" aria-label="Close menu">
+        <button
+          class="wm-side-close"
+          id="wm-side-close"
+          aria-label="Close menu"
+        >
           ✕
         </button>
       </div>
@@ -128,23 +129,36 @@
       <div id="item-list"></div>
     </div>
 
-    <!-- Section separator like warframe.market -->
-    <div class="orders-separator">
-      <h2>MOST RECENT ORDERS <span class="caret">▼</span></h2>
-    </div>
 
-    <!-- Two-column orders layout -->
-    <section class="orders-section">
-      <div class="orders-grid">
-        <div id="orders-sell"></div>
-        <div id="orders-buy"></div>
+
+  <!-- Item section to be displayed plus the sub-items if there are any -->
+  <div id="item-display"></div>
+
+    <!-- Orders section: separator and grid together, moved down -->
+    <div id="orders-section-wrapper">
+      <!-- Section separator like warframe.market -->
+      <div class="orders-separator">
+        <h2>MOST RECENT ORDERS <span class="caret">▼</span></h2>
       </div>
-    </section>
+      <!-- Two-column orders layout -->
+      <section class="orders-section">
+        <div class="orders-grid">
+          <div id="orders-sell"></div>
+          <div id="orders-buy"></div>
+        </div>
+      </section>
+    </div>
 
     <!-- Modularized: shared UI logic for menus and platform dropdown -->
     <script src="price-monitor.js"></script>
     <script src="ui-common.js"></script>
+  <script src="items.js"></script>
     <!-- Dynamic order rendering: loops through data and generates order cards -->
     <script src="orders-dynamic.js"></script>
+
+    <script>
+      // Call the displayItemAndSubItems function from items.js
+      window.displayItemAndSubItems('item-form', 'item-name', 'item-display');
+    </script>
   </body>
 </html>

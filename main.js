@@ -23,7 +23,7 @@ function createWindow() {
   mainWindow.loadFile("renderer/price-monitor.html");
 
   // Open Developer Tools for debugging
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 
   // Handle window close event
   mainWindow.on("closed", () => {
