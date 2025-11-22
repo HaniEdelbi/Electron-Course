@@ -3,21 +3,25 @@
 A complete light mode theme for the Warframe Market Price Monitor app.
 
 ## Overview
+
 This theme provides a clean, modern light mode alternative to the dark Warframe aesthetic while maintaining the app's professional look and feel.
 
 ## Color Palette
 
 ### Primary Colors
+
 - **Primary Blue**: `#2196f3` - Main accent color
 - **Dark Blue**: `#1976d2` - Headings and important elements
 - **Light Blue**: `#e3f2fd` - Backgrounds and highlights
 
 ### Text Colors
+
 - **Primary Text**: `#263238` - Main content
 - **Secondary Text**: `#455a64` - Descriptions, secondary info
 - **Tertiary Text**: `#546e7a` - Links, less important text
 
 ### Backgrounds
+
 - **Main Background**: Linear gradient from `#e3f2fd` to `#f5f5f5`
 - **Container Background**: `rgba(255, 255, 255, 0.95)` - Semi-transparent white
 - **Navbar Background**: `rgba(255, 255, 255, 0.95)` - Bright white
@@ -25,6 +29,7 @@ This theme provides a clean, modern light mode alternative to the dark Warframe 
 ## Usage
 
 ### Basic Implementation
+
 Add the light mode theme after your main CSS files:
 
 ```html
@@ -35,19 +40,20 @@ Add the light mode theme after your main CSS files:
 ```
 
 ### Dynamic Theme Switching
+
 Use JavaScript to toggle between dark and light modes:
 
 ```javascript
-const themeLink = document.createElement('link');
-themeLink.rel = 'stylesheet';
-themeLink.id = 'theme-css';
+const themeLink = document.createElement("link");
+themeLink.rel = "stylesheet";
+themeLink.id = "theme-css";
 
 // Switch to light mode
-themeLink.href = '../design/light-mode/theme.css';
+themeLink.href = "../design/light-mode/theme.css";
 document.head.appendChild(themeLink);
 
 // Switch back to dark mode
-document.getElementById('theme-css')?.remove();
+document.getElementById("theme-css")?.remove();
 ```
 
 ## Features
