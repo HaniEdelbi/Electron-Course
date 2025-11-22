@@ -20,7 +20,7 @@
         <button class="hamburger-menu" id="hamburger-menu">☰</button>
         <div class="wm-logo">
           <span class="wm-logo-main">WARFRAME</span>
-          <span class="wm-logo-sub">Price Checker</span>
+          <span class="wm-logo-sub">Price Monitor</span>
         </div>
 
         <div class="wm-platform-select">
@@ -58,9 +58,9 @@
         <button class="side-close" id="side-close">✕</button>
       </div>
       <nav class="side-panel-links">
+        <a href="#" class="active">Live Market</a>
         <a href="#">Price History</a>
-        <a href="#">Item Database</a>
-        <a href="#">Settings</a>
+        <a href="settings.html">Settings</a>
         <a href="about.html">About</a>
       </nav>
     </aside>
@@ -83,7 +83,7 @@
         <a href="#">Tools</a>
         <hr />
         <a href="#">Profile</a>
-        <a href="#">Settings</a>
+        <a href="settings.html">Settings</a>
         <a href="#">Help</a>
       </nav>
     </aside>
@@ -150,13 +150,49 @@
     </div>
 
     <!-- Modularized: shared UI logic for menus and platform dropdown -->
-    <script src="price-monitor.js"></script>
-    <script src="ui-common.js"></script>
-    <script src="items.js"></script>
+    <script src="utils/ui-common.js"></script>
+    <script src="utils/notifications.js"></script>
+    <script src="utils/items.js"></script>
     <!-- Dynamic order rendering: loops through data and generates order cards -->
-    <script src="orders-dynamic.js"></script>
+    <script src="utils/orders-dynamic.js"></script>
 
     <script>
+      // Load default min/max prices from settings
+      document.addEventListener('DOMContentLoaded', () => {
+        // Function to get current settings (same as in settings.js)
+        function getSettings() {
+          const saved = localStorage.getItem('warframe-monitor-settings');
+          const defaultSettings = {
+            refreshInterval: 30,
+            enableNotifications: true,
+            enableSounds: false,
+            defaultPlatform: 'pc',
+            ordersPerColumn: 10,
+            theme: 'dark',
+            hideOffline: true,
+            verifiedOnly: false,
+            defaultMinPrice: '',
+            defaultMaxPrice: '',
+            minimizeToTray: true,
+            startMinimized: false
+          };
+          return saved ? { ...defaultSettings, ...JSON.parse(saved) } : defaultSettings;
+        }
+
+        // Load settings and populate min/max price inputs
+        const settings = getSettings();
+        const minPriceInput = document.getElementById('min-price');
+        const maxPriceInput = document.getElementById('max-price');
+        
+        if (minPriceInput && settings.defaultMinPrice) {
+          minPriceInput.value = settings.defaultMinPrice;
+        }
+        
+        if (maxPriceInput && settings.defaultMaxPrice) {
+          maxPriceInput.value = settings.defaultMaxPrice;
+        }
+      });
+
       // Call the displayItemAndSubItems function from items.js
       window.displayItemAndSubItems("item-form", "item-name", "item-display");
     </script>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Settings - Warframe Market Price Monitor</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- All layout + navbar + background styles -->
+    <link rel="stylesheet" href="../design/background.css" />
+    <link rel="stylesheet" href="../design/settings.css" />
+  </head>
+  <body>
+    <!-- Top navbar similar to warframe.market -->
+    <header class="wm-navbar">
+      <div class="wm-navbar-left">
+        <button class="hamburger-menu" id="hamburger-menu">☰</button>
+        <div class="wm-logo">
+          <span class="wm-logo-main">WARFRAME</span>
+          <span class="wm-logo-sub">Price Checker</span>
+        </div>
+        <div class="wm-platform-select">
+          <button class="wm-platform-btn">
+            <span>PC</span>
+            <span class="wm-platform-chevron">▾</span>
+          </button>
+          <ul class="wm-platform-dropdown">
+            <li>PC</li>
+            <li>PSN</li>
+            <li>XBOX</li>
+            <li>SWITCH</li>
+          </ul>
+        </div>
+      </div>
+      <div class="wm-navbar-right">
+        <nav class="wm-nav-links">
+          <a href="price-monitor.html">Market</a>
+          <a href="#">Contracts</a>
+          <a href="#">Tools</a>
+        </nav>
+        <button class="wm-signin-btn">Sign In</button>
+      </div>
+    </header>
+
+    <!-- Slide-out side menu -->
+    <aside class="side-panel" id="side-panel">
+      <div class="side-panel-header">
+        <span>Menu</span>
+        <button class="side-close" id="side-close">✕</button>
+      </div>
+      <nav class="side-panel-links">
+        <a href="price-monitor.html">Price Monitor</a>
+        <a href="#">Price History</a>
+        <a href="#">Item Database</a>
+        <a href="#" class="active">Settings</a>
+        <a href="about.html">About</a>
+      </nav>
+    </aside>
+
+    <div class="container">
+      <h1>Settings</h1>
+
+      <div class="settings-content">
+        <form id="settings-form">
+          <!-- Monitoring Settings -->
+          <section class="settings-section">
+            <h2>Monitoring</h2>
+            
+            <div class="setting-group">
+              <label for="refresh-interval">Auto-refresh interval (seconds)</label>
+              <input type="number" id="refresh-interval" min="5" max="300" value="30" />
+              <small>How often to check for price updates</small>
+            </div>
+
+            <div class="setting-group">
+              <label for="enable-notifications">
+                <input type="checkbox" id="enable-notifications" checked />
+                Enable desktop notifications
+              </label>
+              <button type="button" class="btn-test" id="test-notifications">Test Notification</button>
+            </div>
+
+            <div class="setting-group">
+              <label for="enable-sounds">
+                <input type="checkbox" id="enable-sounds" />
+                Enable sound alerts
+              </label>
+              <button type="button" class="btn-test" id="test-sound">Test Sound</button>
+            </div>
+          </section>
+
+          <!-- Display Settings -->
+          <section class="settings-section">
+            <h2>Display</h2>
+            
+            <div class="setting-group">
+              <label for="default-platform">Default platform</label>
+              <select id="default-platform">
+                <option value="pc" selected>PC</option>
+                <option value="ps4">PlayStation</option>
+                <option value="xbox">Xbox</option>
+                <option value="switch">Nintendo Switch</option>
+              </select>
+            </div>
+
+            <div class="setting-group">
+              <label for="orders-per-column">Orders per column</label>
+              <input type="number" id="orders-per-column" min="5" max="50" value="10" />
+              <small>Maximum number of orders to display</small>
+            </div>
+
+            <div class="setting-group">
+              <label for="theme">Theme</label>
+              <select id="theme">
+                <option value="dark" selected>Dark</option>
+                <option value="light">Light</option>
+              </select>
+            </div>
+          </section>
+
+          <!-- Filter Settings -->
+          <section class="settings-section">
+            <h2>Filters</h2>
+            
+            <div class="setting-group">
+              <label for="hide-offline">
+                <input type="checkbox" id="hide-offline" checked />
+                Hide offline users
+              </label>
+            </div>
+
+            <div class="setting-group">
+              <label for="verified-only">
+                <input type="checkbox" id="verified-only" />
+                Show verified traders only
+              </label>
+            </div>
+
+            <div class="setting-group">
+              <label for="default-min-price">Default minimum price</label>
+              <input type="number" id="default-min-price" min="0" step="0.01" placeholder="No minimum" />
+            </div>
+
+            <div class="setting-group">
+              <label for="default-max-price">Default maximum price</label>
+              <input type="number" id="default-max-price" min="0" step="0.01" placeholder="No maximum" />
+            </div>
+          </section>
+
+          <!-- Application Settings -->
+          <section class="settings-section">
+            <h2>Application</h2>
+            
+            <div class="setting-group">
+              <label for="minimize-to-tray">
+                <input type="checkbox" id="minimize-to-tray" checked />
+                Minimize to system tray on close
+              </label>
+            </div>
+
+            <div class="setting-group">
+              <label for="start-minimized">
+                <input type="checkbox" id="start-minimized" />
+                Start minimized to tray
+              </label>
+            </div>
+          </section>
+
+          <div class="settings-actions">
+            <button type="submit" class="btn-primary">Save Settings</button>
+            <button type="button" class="btn-secondary" id="reset-settings">Reset to Defaults</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modularized: shared UI logic for menus and platform dropdown -->
+    <script src="utils/ui-common.js"></script>
+    <script src="utils/notifications.js"></script>
+    <script src="utils/settings.js"></script>
+  </body>
+</html>

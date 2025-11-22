@@ -47,7 +47,7 @@
         <a href="price-monitor.html">Price Monitor</a>
         <a href="#">Price History</a>
         <a href="#">Item Database</a>
-        <a href="#">Settings</a>
+        <a href="settings.html">Settings</a>
         <a href="#" class="active">About</a>
       </nav>
     </aside>
@@ -104,10 +104,50 @@
           <p>Version 1.0.0</p>
           <p>Created with ❤️ for the Warframe community</p>
         </section>
+
+        <section class="about-section">
+          <h2>Demo: Animated Toggle</h2>
+          <p>Here's a sample of our custom UI components:</p>
+          
+          <div class="toggle-demo">
+            <div class="toggle-wrapper">
+              <span class="toggle-label">Dark Mode</span>
+              <label class="toggle">
+                <input type="checkbox" id="demo-toggle" />
+                <span class="toggle-track" data-off="Off" data-on="On">
+                  <span class="toggle-thumb"></span>
+                </span>
+              </label>
+            </div>
+            <p class="toggle-status" style="margin-top: 10px; font-size: 0.9rem; color: #9fbacc;">
+              Status: <span id="toggle-status">Off</span>
+            </p>
+          </div>
+        </section>
       </div>
     </div>
 
     <!-- Modularized: shared UI logic for menus and platform dropdown -->
-    <script src="ui-common.js"></script>
+    <script src="utils/ui-common.js"></script>
+    <script>
+      // Initialize toggle functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        const toggle = document.getElementById('demo-toggle');
+        const status = document.getElementById('toggle-status');
+        
+        if (toggle && status) {
+          // Update status display
+          const updateStatus = () => {
+            status.textContent = toggle.checked ? 'On' : 'Off';
+          };
+          
+          // Initialize status
+          updateStatus();
+          
+          // Add change listener
+          toggle.addEventListener('change', updateStatus);
+        }
+      });
+    </script>
   </body>
 </html>

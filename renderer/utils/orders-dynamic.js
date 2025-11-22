@@ -105,8 +105,17 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>`;
 
 
-    // Limit to first 10 to keep it tidy
-    orders.slice(0, 10).forEach((order, idx) => {
+    // Get the orders per column setting (default to 10 if not set)
+    function getOrdersPerColumn() {
+      const saved = localStorage.getItem('warframe-monitor-settings');
+      const defaultSettings = { ordersPerColumn: 10 };
+      const settings = saved ? { ...defaultSettings, ...JSON.parse(saved) } : defaultSettings;
+      return settings.ordersPerColumn || 10;
+    }
+    
+    const maxOrders = getOrdersPerColumn();
+    // Limit orders based on user setting
+    orders.slice(0, maxOrders).forEach((order, idx) => {
       const price = order.platinum;
       const quantity = order.quantity;
       const user = order.user?.ingame_name || order.user?.name || 'Unknown';
@@ -321,6 +330,21 @@ document.addEventListener('DOMContentLoaded', () => {
       // Sort: lowest price first for both buy and sell
       sellOrders.sort((a, b) => a.platinum - b.platinum);
       buyOrders.sort((a, b) => a.platinum - b.platinum);
+
+      // Check for price alerts if notification manager is available
+      if (window.notificationManager) {
+        const prettyName = niceItemName(itemUrlName);
+        
+        // Check sell orders for good buying opportunities
+        if (sellOrders.length > 0) {
+          window.notificationManager.checkPriceAlerts(sellOrders, prettyName, minPrice, maxPrice);
+        }
+        
+        // Check buy orders for good selling opportunities  
+        if (buyOrders.length > 0) {
+          window.notificationManager.checkPriceAlerts(buyOrders, prettyName, minPrice, maxPrice);
+        }
+      }
 
       renderOrders('sell', sellOrders, itemUrlName);
       renderOrders('buy', buyOrders, itemUrlName);

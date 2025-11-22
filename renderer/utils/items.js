@@ -34,7 +34,6 @@ window.displayItemAndSubItems = function (
     attach();
   }
 };
-displayDiv.innerHTML = html;
 
 // --------------------------------------------------
 // Helper: normalize icon URLs from warframe.market API
