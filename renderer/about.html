@@ -9,6 +9,9 @@
     <!-- All layout + navbar + background styles -->
     <link rel="stylesheet" href="../design/background.css" />
     <link rel="stylesheet" href="../design/about.css" />
+    <!-- Theme styles - dynamically loaded -->
+    <link rel="stylesheet" href="../design/dark-mode/toggle.css" id="theme-toggle-css" />
+    <link rel="stylesheet" href="" id="theme-main-css" disabled />
   </head>
   <body>
     <!-- Top navbar similar to warframe.market -->
@@ -106,12 +109,12 @@
         </section>
 
         <section class="about-section">
-          <h2>Demo: Animated Toggle</h2>
-          <p>Here's a sample of our custom UI components:</p>
+          <h2>Demo: Theme Switcher</h2>
+          <p>Toggle between light and dark themes to see the complete visual transformation:</p>
           
           <div class="toggle-demo">
             <div class="toggle-wrapper">
-              <span class="toggle-label">Dark Mode</span>
+              <span class="toggle-label">App Theme</span>
               <label class="toggle">
                 <input type="checkbox" id="demo-toggle" />
                 <span class="toggle-track" data-off="Off" data-on="On">
@@ -120,7 +123,10 @@
               </label>
             </div>
             <p class="toggle-status" style="margin-top: 10px; font-size: 0.9rem; color: #9fbacc;">
-              Status: <span id="toggle-status">Off</span>
+              Current Theme: <span id="toggle-status">Dark Mode 🌙</span>
+            </p>
+            <p style="margin-top: 15px; font-size: 0.85rem; color: #7a9fb8; font-style: italic;">
+              Watch the entire page transform - navbar, background, colors, and toggle button!
             </p>
           </div>
         </section>
@@ -130,22 +136,58 @@
     <!-- Modularized: shared UI logic for menus and platform dropdown -->
     <script src="utils/ui-common.js"></script>
     <script>
-      // Initialize toggle functionality
+      // Initialize toggle functionality with complete theme switching
       document.addEventListener('DOMContentLoaded', function() {
         const toggle = document.getElementById('demo-toggle');
         const status = document.getElementById('toggle-status');
+        const themeToggleCSS = document.getElementById('theme-toggle-css');
+        const themeMainCSS = document.getElementById('theme-main-css');
         
-        if (toggle && status) {
-          // Update status display
-          const updateStatus = () => {
-            status.textContent = toggle.checked ? 'On' : 'Off';
+        if (toggle && status && themeToggleCSS && themeMainCSS) {
+          // Update status display and switch complete theme
+          const updateTheme = () => {
+            const isLightMode = toggle.checked;
+            
+            if (isLightMode) {
+              // Switch to light mode
+              themeToggleCSS.href = '../design/light-mode/toggle.css';
+              themeMainCSS.href = '../design/light-mode/theme.css';
+              themeMainCSS.disabled = false;
+              status.textContent = 'Light Mode ☀️';
+              
+              // Update description text color for light mode
+              const description = status.parentElement.nextElementSibling;
+              if (description) {
+                description.style.color = '#546e7a';
+              }
+            } else {
+              // Switch to dark mode
+              themeToggleCSS.href = '../design/dark-mode/toggle.css';
+              themeMainCSS.disabled = true;
+              status.textContent = 'Dark Mode 🌙';
+              
+              // Reset description text color for dark mode
+              const description = status.parentElement.nextElementSibling;
+              if (description) {
+                description.style.color = '#7a9fb8';
+              }
+            }
           };
           
-          // Initialize status
-          updateStatus();
+          // Initialize with dark mode
+          updateTheme();
           
-          // Add change listener
-          toggle.addEventListener('change', updateStatus);
+          // Add change listener with smooth transition
+          toggle.addEventListener('change', function() {
+            // Add transition class to body for smooth color changes
+            document.body.style.transition = 'background 0.5s ease, color 0.5s ease';
+            updateTheme();
+            
+            // Remove transition after animation completes
+            setTimeout(() => {
+              document.body.style.transition = '';
+            }, 500);
+          });
         }
       });
     </script>
